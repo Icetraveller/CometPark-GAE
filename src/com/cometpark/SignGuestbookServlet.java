@@ -37,7 +37,6 @@ public class SignGuestbookServlet extends HttpServlet {
 	
 	 @Override
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		 
 		 log.setLevel(Level.INFO);
 			log.info(" GET");
 		 ChannelService channelService = ChannelServiceFactory
@@ -53,7 +52,6 @@ public class SignGuestbookServlet extends HttpServlet {
 			 * 
 			 */
 			index = index.replaceAll("\\{\\{ token \\}\\}", token);
-			index = index.replaceAll("\\{\\{ content \\}\\}", "lol");
 			
 			resp.setContentType("text/html");
 		    resp.getWriter().write(index);
@@ -62,12 +60,13 @@ public class SignGuestbookServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-//		UserService userService = UserServiceFactory.getUserService();
-//		User user = userService.getCurrentUser();
 //
 //		String guestbookName = req.getParameter("guestbookName");
 //		Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
 		String content = req.getHeader("content");
+		if(content == null || content.length() ==0){
+			return;
+		}
 		log.setLevel(Level.INFO);
 		log.info(content + " Post");
 //		Date date = new Date();
@@ -98,5 +97,6 @@ public class SignGuestbookServlet extends HttpServlet {
 		ChannelService channelService = ChannelServiceFactory.getChannelService();
 		log.info(" Post "+token);
 		channelService.sendMessage(new ChannelMessage(token, content));
+		resp.getWriter().println(token);
 	}
 }
