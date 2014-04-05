@@ -143,7 +143,6 @@ public class SignGuestbookServlet extends HttpServlet {
 				.entrySet().iterator();
 		HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
 		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
 			Entry<String, JsonElement> entry = iterator.next();
 			int spotId = Integer.parseInt(entry.getKey());
 			int availability = entry.getValue().getAsInt();
