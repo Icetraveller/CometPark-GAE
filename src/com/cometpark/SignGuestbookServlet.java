@@ -1,5 +1,8 @@
 package com.cometpark;
 
+import com.cometpark.server.model.SpotsUpdate;
+import com.cometpark.server.util.DatastoreHelper;
+import com.cometpark.server.util.Utils;
 import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
 import com.google.appengine.api.channel.ChannelServiceFactory;
@@ -13,90 +16,136 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.CharBuffer;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SignGuestbookServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6262806185256788819L;
+
 	private static final Logger log = Logger
 			.getLogger(SignGuestbookServlet.class.getName());
 	String channelKey = "test";
-	String token="";
-	
-	 @Override
-	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		 log.setLevel(Level.INFO);
-			log.info(" GET");
-		 ChannelService channelService = ChannelServiceFactory
-					.getChannelService();
-			token = channelService.createChannel(channelKey);
-			log.info("GET "+token);
-			
-			FileReader reader = new FileReader("guestbook.jsp");
-		    CharBuffer buffer = CharBuffer.allocate(16384);
-		    reader.read(buffer);
-		    String index = new String(buffer.array());
-			/**
-			 * 
-			 */
-			index = index.replaceAll("\\{\\{ token \\}\\}", token);
-			
-			resp.setContentType("text/html");
-		    resp.getWriter().write(index);
-	  }
+	String token = "";
+
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		log.setLevel(Level.INFO);
+		log.info(" GET");
+
+		// create channel
+		ChannelService channelService = ChannelServiceFactory
+				.getChannelService();
+		token = channelService.createChannel(channelKey);
+		log.info("GET " + token);
+
+		// set response
+		FileReader reader = new FileReader("guestbook.jsp");
+		CharBuffer buffer = CharBuffer.allocate(16384);
+		reader.read(buffer);
+		String index = new String(buffer.array());
+		index = index.replaceAll("\\{\\{ token \\}\\}", token);
+		resp.setContentType("text/html");
+		resp.getWriter().write(index);
+
+		// push origin data store to client
+
+	}
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-//
-//		String guestbookName = req.getParameter("guestbookName");
-//		Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
-		String content = req.getHeader("content");
-		if(content == null || content.length() ==0){
-			return;
-		}
 		log.setLevel(Level.INFO);
-		log.info(content + " Post");
-//		Date date = new Date();
-//
-//		DatastoreService datastore = DatastoreServiceFactory
-//				.getDatastoreService();
-//		// Place greeting in same entity group as guestbook
-//		Entity greeting = new Entity("Greeting", guestbookKey);
-//		greeting.setProperty("user", user);
-//		greeting.setProperty("date", date);
-//		greeting.setProperty("content", content);
-//		Query query = new Query("Greeting", guestbookKey).setAncestor(
-//				guestbookKey).addSort("date", Query.SortDirection.DESCENDING);
-//
-//		List<Entity> greetings = datastore.prepare(query).asList(
-//				FetchOptions.Builder.withLimit(10));
-//		datastore.put(greeting);
+		log.info(" Post");
+		// String guestbookName = req.getParameter("guestbookName");
+		// Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
+//		String content = req.getHeader("content");
+//		if (content == null || content.length() == 0) {
+//			return;
+//		}
+
+		String jsonMessage = req.getParameter("message");
+		log.info("POST input: " + jsonMessage);
+		processJson(jsonMessage);
+		log.setLevel(Level.INFO);
+//		log.info(content + " Post");
+		// Date date = new Date();
+		// DatastoreService datastore = DatastoreServiceFactory
+		// .getDatastoreService();
+		// // Place greeting in same entity group as guestbook
+		// Entity greeting = new Entity("Greeting", guestbookKey);
+		// greeting.setProperty("user", user);
+		// greeting.setProperty("date", date);
+		// greeting.setProperty("content", content);
+		// Query query = new Query("Greeting", guestbookKey).setAncestor(
+		// guestbookKey).addSort("date", Query.SortDirection.DESCENDING);
+		//
+		// List<Entity> greetings = datastore.prepare(query).asList(
+		// FetchOptions.Builder.withLimit(10));
+		// datastore.put(greeting);
 		// TODO
 		/*
 		 * so for here we just do query, and put them into a list and pass to
 		 * client java script
 		 */
 		// This is what actually sends the message.
-
-		/**
-		 * 
-		 */
-		ChannelService channelService = ChannelServiceFactory.getChannelService();
-		log.info(" Post "+token);
-		channelService.sendMessage(new ChannelMessage(token, content));
 		resp.getWriter().println(token);
+	}
+
+	private void processJson(String jsonString) {
+		JsonParser parser = new JsonParser();
+		try {
+			Object obj = parser.parse(jsonString);
+			JsonObject jsonObject = (JsonObject) obj;
+			int type = jsonObject.get("type").getAsInt();
+			JsonElement controllerId = jsonObject.get("controllerId");
+			DatastoreHelper datastoreHelper = new DatastoreHelper();
+			switch (type) {
+			case Utils.TYPE_SPOTS_UPDATE:
+				JsonObject spotsJsonObject = jsonObject
+						.getAsJsonObject("spots");
+				updateClientView(spotsJsonObject.toString());
+				datastoreHelper.updateRequest(spotsJsonObject);
+				break;
+			}
+		} catch (JsonSyntaxException e) {
+			log.info("processJson JsonSyntaxException");
+		}
+	}
+
+
+	private void updateClientView(String jsonObjectString) {
+		ChannelService channelService = ChannelServiceFactory
+				.getChannelService();
+		log.info(" Post " + token);
+		channelService.sendMessage(new ChannelMessage(token, jsonObjectString));
+
 	}
 }
