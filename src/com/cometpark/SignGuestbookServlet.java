@@ -1,6 +1,7 @@
 package com.cometpark;
 
 import com.cometpark.server.model.SpotsUpdate;
+import com.cometpark.server.util.DatastoreHelper;
 import com.cometpark.server.util.Utils;
 import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
@@ -125,11 +126,13 @@ public class SignGuestbookServlet extends HttpServlet {
 			JsonObject jsonObject = (JsonObject) obj;
 			int type = jsonObject.get("type").getAsInt();
 			JsonElement controllerId = jsonObject.get("controllerId");
+			DatastoreHelper datastoreHelper = new DatastoreHelper();
 			switch (type) {
 			case Utils.TYPE_SPOTS_UPDATE:
 				JsonObject spotsJsonObject = jsonObject
 						.getAsJsonObject("spots");
-				updateRequest(spotsJsonObject);
+				updateClientView(spotsJsonObject.toString());
+				datastoreHelper.updateRequest(spotsJsonObject);
 				break;
 			}
 		} catch (JsonSyntaxException e) {
@@ -137,33 +140,6 @@ public class SignGuestbookServlet extends HttpServlet {
 		}
 	}
 
-	private void updateRequest(JsonObject spotsJsonObject) {
-		updateClientView(spotsJsonObject.toString());
-		Iterator<Entry<String, JsonElement>> iterator = spotsJsonObject
-				.entrySet().iterator();
-		HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
-		while (iterator.hasNext()) {
-			Entry<String, JsonElement> entry = iterator.next();
-			int spotId = Integer.parseInt(entry.getKey());
-			int availability = entry.getValue().getAsInt();
-//			map.put(spotId, availability);
-		}
-		
-	}
-	
-//	private void updateDb(HashMap<Integer, Integer> map) {
-//		DatastoreService datastore = DatastoreServiceFactory
-//				.getDatastoreService();
-//		// Place greeting in same entity group as guestbook
-//		Entity lot = new Entity("Lot", "A");
-//		lot.setProperty("Id", user);
-//		lot.setProperty("Availability", user);
-//		Query query = new Query("Lot", "A").setAncestor("A");
-//
-//		List<Entity> greetings = datastore.prepare(query).asList(
-//				FetchOptions.Builder.withLimit(10));
-//		datastore.put(lot);
-//	}
 
 	private void updateClientView(String jsonObjectString) {
 		ChannelService channelService = ChannelServiceFactory
