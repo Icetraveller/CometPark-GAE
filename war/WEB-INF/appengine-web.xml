@@ -29,11 +29,11 @@
   -->
   
   <static-files>
-	  <exclude path="guestbook.jsp" />
+	  <exclude path="index-template.jsp" />
 	</static-files>
 
 	<resource-files>
-	  <include path="guestbook.jsp" />
+	  <include path="index-template.jsp" />
 	</resource-files>
 
 </appengine-web-app>

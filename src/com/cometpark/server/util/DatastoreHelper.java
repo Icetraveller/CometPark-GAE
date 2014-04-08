@@ -40,8 +40,8 @@ public class DatastoreHelper {
 			Entry<Integer, Integer> entry = iterator.next();
 			int spotId = entry.getKey();
 			int availability = entry.getValue();
-			Entity spot = new Entity("Spot",spotId);
-			spot.setProperty("availability", availability);
+			Entity spot = new Entity(Utils.SPOT_KIND,spotId);
+			spot.setProperty(Utils.SPOT_AVAILABILITY, availability);
 			arrayList.add(spot);
 		}
 		datastore.put(arrayList);
