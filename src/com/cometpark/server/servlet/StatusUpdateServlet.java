@@ -74,13 +74,13 @@ public class StatusUpdateServlet extends HttpServlet {
 		try {
 			Object obj = parser.parse(jsonString);
 			JsonObject jsonObject = (JsonObject) obj;
-			int type = jsonObject.get("type").getAsInt();
-			JsonElement controllerId = jsonObject.get("controllerId");
+			int type = jsonObject.get(Utils.JSON_TYPE).getAsInt();
+			JsonElement controllerId = jsonObject.get(Utils.JSON_CONTROLLER_ID);
 			DatastoreHelper datastoreHelper = new DatastoreHelper();
 			switch (type) {
-			case Utils.TYPE_SPOTS_UPDATE:
+			case Utils.TYPE_SPOTS_STATUS_UPDATE:
 				JsonObject spotsJsonObject = jsonObject
-						.getAsJsonObject("spots");
+						.getAsJsonObject(Utils.JSON_SPOTS);
 				updateClientView(spotsJsonObject.toString());
 				datastoreHelper.updateRequest(spotsJsonObject);
 				break;
