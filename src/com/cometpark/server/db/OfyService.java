@@ -36,7 +36,6 @@ public class OfyService {
 //        factory().register(MulticastMessage.class);
     	factory().register(Spot.class);
     	factory().register(Lot.class);
-    	factory().register(Lot.Location.class);
     }
 
     public static Objectify ofy() {

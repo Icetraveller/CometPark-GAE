@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cometpark.server.util.DatastoreHelper;
+import com.cometpark.server.util.JsonHandler;
 import com.cometpark.server.util.Utils;
 import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
 import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -53,7 +54,7 @@ public class StatusUpdateServlet extends HttpServlet {
 		index = index.replaceAll("\\{\\{ token \\}\\}", token);
 		resp.setContentType("text/html");
 		resp.getWriter().write(index);
-		
+
 	}
 
 	@Override
@@ -74,27 +75,37 @@ public class StatusUpdateServlet extends HttpServlet {
 		try {
 			Object obj = parser.parse(jsonString);
 			JsonObject jsonObject = (JsonObject) obj;
+			
 			int type = jsonObject.get(Utils.JSON_TYPE).getAsInt();
-			JsonElement controllerId = jsonObject.get(Utils.JSON_CONTROLLER_ID);
-			DatastoreHelper datastoreHelper = new DatastoreHelper();
 			switch (type) {
-			case Utils.TYPE_SPOTS_STATUS_UPDATE:
+			case Utils.TYPE_SPOTS_STATUS_UPDATE: {
 				JsonObject spotsJsonObject = jsonObject
-						.getAsJsonObject(Utils.JSON_SPOTS);
+						.getAsJsonObject(Utils.JSON_KEY_SPOTS);
 				updateClientView(spotsJsonObject.toString());
-				datastoreHelper.updateRequest(spotsJsonObject);
+				JsonHandler.updateSpots(spotsJsonObject);
 				break;
+			}
+			case Utils.TYPE_CREATE_SPOTS: {
+				JsonArray spotsJsonArray =jsonObject.getAsJsonArray(Utils.JSON_KEY_SPOTS);
+				JsonHandler.createSpots(spotsJsonArray);
+				break;
+			}
+			case Utils.TYPE_CREATE_LOTS:{
+				JsonArray lotsJsonArray =jsonObject.getAsJsonArray(Utils.JSON_KEY_LOTS);
+				JsonHandler.createLots(lotsJsonArray);
+				break;
+			}
 			}
 		} catch (JsonSyntaxException e) {
 			log.info("processJson JsonSyntaxException");
 		}
 	}
 
-
 	private void updateClientView(String jsonObjectString) {
 		ChannelService channelService = ChannelServiceFactory
 				.getChannelService();
 		log.info(" Post " + token);
+		log.info(" Post " + jsonObjectString);
 		channelService.sendMessage(new ChannelMessage(token, jsonObjectString));
 
 	}

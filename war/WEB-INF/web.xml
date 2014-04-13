@@ -16,12 +16,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	
 	<servlet>
-		<servlet-name>sign</servlet-name>
+		<servlet-name>update</servlet-name>
 		<servlet-class>com.cometpark.server.servlet.StatusUpdateServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>sign</servlet-name>
-		<url-pattern>/</url-pattern>
+		<servlet-name>update</servlet-name>
+		<url-pattern>/update</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>update</servlet-name>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>OpenedServlet</servlet-name>

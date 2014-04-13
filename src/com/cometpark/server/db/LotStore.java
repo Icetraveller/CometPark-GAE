@@ -4,9 +4,7 @@ import static com.cometpark.server.db.OfyService.ofy;
 
 import java.util.logging.Logger;
 
-import com.cometpark.server.db.models.Lot.Location;
 import com.cometpark.server.db.models.Lot;
-import com.cometpark.server.db.models.Spot;
 import com.cometpark.server.util.Utils;
 
 public class LotStore {
@@ -14,8 +12,8 @@ public class LotStore {
 			.getLogger(LotStore.class.getName());
 
 	public static void addLot(String id, String name, String filename,
-			String url, Location locationTopLeft, Location locationTopRight, Location locationBottomLeft,
-			Location locationBottomRight) {
+			String url, double[] locationTopLeft, double[] locationTopRight,
+			double[] locationBottomLeft, double[] locationBottomRight) {
 		LOG.info("id=" + id + " name=" + name + " filename=" + filename
 				+ " url=" + url);
 
@@ -32,8 +30,8 @@ public class LotStore {
 			newLot.setLocationBottomRight(locationBottomRight);
 			newLot.setStatus(Utils.STATUS_AVAILABLE);
 			ofy().save().entity(newLot);
-		}else{
-			if(oldLot.getName().equals(name)){
+		} else {
+			if (oldLot.getName().equals(name)) {
 				oldLot.setId(id);
 				oldLot.setName(name);
 				oldLot.setFilename(filename);
@@ -47,24 +45,24 @@ public class LotStore {
 			}
 		}
 	}
-	
-	public static void deleteLot(String lotId){
+
+	public static void deleteLot(String lotId) {
 		Lot oldLot = findLotByLotId(lotId);
-		if(oldLot ==null){
+		if (oldLot == null) {
 			LOG.warning(lotId + " is already deleted");
 			return;
 		}
-		LOG.warning("Deleting lot "+ lotId);
+		LOG.warning("Deleting lot " + lotId);
 		ofy().delete().entity(oldLot);
 	}
-	
-	public static void updateLotStatus(String lotId, int status){
+
+	public static void updateLotStatus(String lotId, int status) {
 		Lot oldLot = findLotByLotId(lotId);
-		if(oldLot != null){
+		if (oldLot != null) {
 			oldLot.setStatus(status);
 			ofy().save().entity(oldLot);
-		}else{
-			LOG.warning("lot "+oldLot+" not exists");
+		} else {
+			LOG.warning("lot " + oldLot + " not exists");
 		}
 	}
 
