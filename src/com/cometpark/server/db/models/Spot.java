@@ -2,11 +2,12 @@ package com.cometpark.server.db.models;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Spot {
 	@Id private String id;
-	private String lot;
+	@Index private String lot;
 	private int type;
 	private double lat;
 	private double lng;

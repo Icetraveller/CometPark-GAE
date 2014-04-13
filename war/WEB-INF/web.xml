@@ -17,7 +17,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 		<servlet-name>update</servlet-name>
-		<servlet-class>com.cometpark.server.servlet.StatusUpdateServlet</servlet-class>
+		<servlet-class>com.cometpark.server.api.StatusUpdateServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>update</servlet-name>
@@ -42,6 +42,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>ResourceServlet</servlet-name>
 		<url-pattern>/json/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>request</servlet-name>
+		<servlet-class>com.cometpark.server.api.ProcessRequestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>request</servlet-name>
+		<url-pattern>/request</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

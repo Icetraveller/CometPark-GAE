@@ -1,4 +1,4 @@
-package com.cometpark.server.servlet;
+package com.cometpark.server.api;
 
 import java.io.FileReader;
 import java.io.IOException;

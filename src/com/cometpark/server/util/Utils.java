@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.cometpark.server.servlet.StatusUpdateServlet;
+import com.cometpark.server.api.StatusUpdateServlet;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -53,6 +53,8 @@ public class Utils {
 	public static final String JSON_KEY_LOCATION = "location";
 	public static final String JSON_KEY_LAT = "lat";
 	public static final String JSON_KEY_LNG = "lng";
+	public static final String JSON_KEY_DATA_VERSION = "dataVersion";
+	
 	
 	public static final String JSON_KEY_TOP_LEFT = "topLeft";
 	public static final String JSON_KEY_TOP_RIGHT = "topRight";

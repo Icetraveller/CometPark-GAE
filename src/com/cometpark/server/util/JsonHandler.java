@@ -2,6 +2,7 @@ package com.cometpark.server.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,14 +11,28 @@ import java.util.Map.Entry;
 import com.cometpark.server.db.LotStore;
 import com.cometpark.server.db.SpotStore;
 import com.cometpark.server.db.models.Lot;
+import com.cometpark.server.db.models.Spot;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class JsonHandler {
+	
+	public static String fetchSpotsByLot(String lotId){
+		HashMap map = new HashMap();
+		List<Spot> spotList = SpotStore.findSpotByLotId(lotId);
+		long dataVersion = System.currentTimeMillis();
+		Gson gson = new GsonBuilder().create();
+		map.put(Utils.JSON_KEY_SPOTS, spotList);
+		map.put(Utils.JSON_KEY_LOT, lotId);
+		map.put(Utils.JSON_KEY_DATA_VERSION, dataVersion);
+		return gson.toJson(map);
+	}
 
 	public static void updateSpots(JsonObject spotsJsonObject) {
 		Iterator<Entry<String, JsonElement>> iterator = spotsJsonObject

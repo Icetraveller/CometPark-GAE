@@ -4,28 +4,12 @@ import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 @Embed
-class LocationTopLeft {
+class Location {
 	double lat;
 	double lng;
 }
 
-@Embed
-class LocationTopRight {
-	double lat;
-	double lng;
-}
 
-@Embed
-class LocationBottomLeft {
-	double lat;
-	double lng;
-}
-
-@Embed
-class LocationBottomRight {
-	double lat;
-	double lng;
-}
 @Entity
 public class Lot {
 	@Id private String id;
@@ -33,10 +17,10 @@ public class Lot {
 	private String filename;
 	private String url;
 	private int status;
-	private LocationTopLeft locationTopLeft = new LocationTopLeft();
-	private LocationTopRight locationTopRight = new LocationTopRight();
-	private LocationBottomLeft locationBottomLeft = new LocationBottomLeft();
-	private LocationBottomRight locationBottomRight = new LocationBottomRight();
+	private Location locationTopLeft = new Location();
+	private Location locationTopRight = new Location();
+	private Location locationBottomLeft = new Location();
+	private Location locationBottomRight = new Location();
 
 	public String getId() {
 		return id;
