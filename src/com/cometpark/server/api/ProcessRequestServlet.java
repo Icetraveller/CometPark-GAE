@@ -15,12 +15,12 @@ public class ProcessRequestServlet extends HttpServlet{
 			.getLogger(ProcessRequestServlet.class.getName());
 
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		log.setLevel(Level.INFO);
 		
 		String lotId = req.getParameter("lot");
-		log.info(" GET"+lotId);
+		log.info(" POST"+lotId);
 		String jsonMessage = JsonHandler.fetchSpotsByLot(lotId);
 		log.info(" jsonMessage: "+jsonMessage);
 		resp.setContentType("text/html");

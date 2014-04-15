@@ -16,7 +16,9 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class Utils {
 	private static final Logger log = Logger.getLogger(Utils.class.getName());
-
+	public static final String PROJECT_ID = "cometparking";
+	public static final String API_KEY = "AIzaSyD2r7coXpNsyYVsXFQ-llsO3_K-E4wwRwg";
+	public static final String SENDER_ID = "876843474676";
 	public static final String SPOT_KIND = "Spot";
 	public static final String SPOT_ID = "Spot_id";
 	public static final String SPOT_AVAILABILITY = "availability";
