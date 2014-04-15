@@ -25,6 +25,5 @@ public class ProcessRequestServlet extends HttpServlet{
 		log.info(" jsonMessage: "+jsonMessage);
 		resp.setContentType("text/html");
 		resp.getWriter().write(jsonMessage);
-
 	}
 }

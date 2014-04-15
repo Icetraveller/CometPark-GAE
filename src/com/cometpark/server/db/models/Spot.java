@@ -8,7 +8,7 @@ import com.googlecode.objectify.annotation.Index;
 public class Spot {
 	@Id private String id;
 	@Index private String lot;
-	private int type;
+	private int permit_type;
 	private double lat;
 	private double lng;
 	private int status;
@@ -26,10 +26,10 @@ public class Spot {
 		this.lot = lot;
 	}
 	public int getType() {
-		return type;
+		return permit_type;
 	}
 	public void setType(int type) {
-		this.type = type;
+		this.permit_type = type;
 	}
 	public double getLat() {
 		return lat;

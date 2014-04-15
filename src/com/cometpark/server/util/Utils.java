@@ -39,6 +39,11 @@ public class Utils {
 	public static final int TYPE_CREATE_LOTS = 4;
 	public static final int TYPE_DELETE_SPOTS = 5;
 	public static final int TYPE_DELETE_LOTS = 6;
+	public static final int TYPE_REQUEST_SPOTS_IN_LOT = 7; 
+	public static final int TYPE_REQUEST_LOTS_INFO = 8; //for app to create
+	public static final int TYPE_REQUEST_SPOTS_INFO = 9; // for app to create
+	public static final int TYPE_REQUEST_LOTS_STATUS = 10; // exp 30/60
+	public static final int _TYPE = 99;
 	
 	public static final String JSON_TYPE = "type";
 	public static final String JSON_CONTROLLER_ID = "controllerId";
@@ -47,7 +52,7 @@ public class Utils {
 	
 	public static final String JSON_KEY_ID = "id";
 	public static final String JSON_KEY_LOT = "lot";
-	public static final String JSON_PERMIT_TYPE = "permitType";
+	public static final String JSON_PERMIT_TYPE = "permit_type";
 	public static final String JSON_KEY_NAME = "name";
 	public static final String JSON_KEY_FILENAME = "filename";
 	public static final String JSON_KEY_URL = "url";
