@@ -22,6 +22,8 @@ public class Config {
 	/** Status*/
 	public static final int STATUS_AVAILABLE = 0;
 	public static final int STATUS_OCCUPIED = 1;
+	
+	public static final String TYPE = "type";
 
 	/**
 	 * Operation of update spot status only.
@@ -67,6 +69,7 @@ public class Config {
 	 * Operation of providing latest spots info.
 	 */
 	public static final int TYPE_REQUEST_SPOTS_INFO = 9;
+	
 
 	/**
 	 * Operation of providing lots status. It includes reserved or not of
@@ -94,22 +97,22 @@ public class Config {
 	/**
 	 *  Notify user a spot status info updates
 	 */
-	public static final int BROADCAST_SPOTS_INFO = 900;
+	public static final int BROADCAST_SPOTS_STATUS_UPDATE = 900;
 	
 	/**
 	 * Lots status info updates
 	 */
-	public static final int BROADCAST_LOTS_INFO = 901;
+	public static final int BROADCAST_LOTS_STATUS_UPDATE = 901;
 	
 	/**
 	 * Notify client the spots info is out of date.
 	 */
-	public static final int BROADCAST_SPOTS_UPDATE = 902;
+	public static final int BROADCAST_SPOTS_INFO_UPDATE = 902;
 	
 	/**
 	 * Notify client the lots info is out of date.
 	 */
-	public static final int BROADCAST_LOTS_UPDATE = 903;
+	public static final int BROADCAST_LOTS_INFO_UPDATE = 903;
 	
 	
 	/** Json section*/

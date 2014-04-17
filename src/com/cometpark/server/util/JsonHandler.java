@@ -25,7 +25,7 @@ public class JsonHandler {
 	
 	public static String fetchSpotsByLot(String lotId){
 		HashMap map = new HashMap();
-		List<Spot> spotList = SpotStore.findSpotByLotId(lotId);
+		List<Spot> spotList = SpotStore.findSpotsByLotId(lotId);
 		long dataVersion = System.currentTimeMillis();
 		Gson gson = new GsonBuilder().create();
 		map.put(Config.JSON_KEY_SPOTS, spotList);

@@ -118,8 +118,8 @@ public class StatusUpdateServlet extends HttpServlet {
 		log.info(" Post " + jsonObjectString);
 		channelService.sendMessage(new ChannelMessage(token, jsonObjectString));
 		
+		
 		String jsonMessage = JsonHandler.fetchSpotsByLot("0");
-
 		List<String> devices = Datastore.getDevices();
 		if (devices.isEmpty()) {
 		} else {

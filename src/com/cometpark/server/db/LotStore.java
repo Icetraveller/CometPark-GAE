@@ -2,9 +2,11 @@ package com.cometpark.server.db;
 
 import static com.cometpark.server.db.OfyService.ofy;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.cometpark.server.db.models.Lot;
+import com.cometpark.server.db.models.Spot;
 import com.cometpark.server.util.Config;
 
 public class LotStore {
@@ -53,6 +55,8 @@ public class LotStore {
 			return;
 		}
 		LOG.warning("Deleting lot " + lotId);
+		List<Spot> spotsList = ofy().load().type(Spot.class).filter(Config.JSON_KEY_LOT, lotId).list();
+		ofy().delete().entities(spotsList);
 		ofy().delete().entity(oldLot);
 	}
 
@@ -65,7 +69,7 @@ public class LotStore {
 			LOG.warning("lot " + oldLot + " not exists");
 		}
 	}
-
+	
 	public static Lot findLotByLotId(String id) {
 		return ofy().load().type(Lot.class).id(id).get();
 	}

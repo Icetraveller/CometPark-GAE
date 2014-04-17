@@ -33,7 +33,7 @@ public class SpotStore {
 			ofy().save().entity(newSpot);
 		} else {
 			LOG.warning(spotId + " is already added");
-			if (lotId .equals( oldSpot.getLot())) {
+			if (lotId.equals(oldSpot.getLot())) {
 				oldSpot.setId(spotId);
 				oldSpot.setLot(lotId);
 				oldSpot.setType(type);
@@ -44,35 +44,36 @@ public class SpotStore {
 			}
 		}
 	}
-	
-	public static void deleteSpot(String spotId){
+
+	public static void deleteSpot(String spotId) {
 		Spot oldSpot = findSpotBySpotId(spotId);
-		if(oldSpot ==null){
+
+		if (oldSpot == null) {
 			LOG.warning(spotId + " is already deleted");
 			return;
 		}
-		LOG.warning("Deleting spot "+ spotId);
+		LOG.warning(spotId + " is illegal");
+		LOG.warning("Deleting spot " + spotId);
 		ofy().delete().entity(oldSpot);
 	}
-	
-	public static void updateSpotStatus(String spotId, int status){
+
+	public static void updateSpotStatus(String spotId, int status) {
 		Spot oldSpot = findSpotBySpotId(spotId);
-		if(oldSpot != null){
+		if (oldSpot != null) {
 			oldSpot.setStatus(status);
 			ofy().save().entity(oldSpot);
-		}else{
-			LOG.warning("spot "+spotId+" not exists");
+		} else {
+			LOG.warning("spot " + spotId + " not exists");
 		}
 	}
-	
-	
 
 	public static Spot findSpotBySpotId(String id) {
 		return ofy().load().type(Spot.class).id(id).get();
 	}
-	
-	public static List<Spot> findSpotByLotId(String lotId){
-		return ofy().load().type(Spot.class).filter("lot", lotId).list();
+
+	public static List<Spot> findSpotsByLotId(String lotId) {
+		return ofy().load().type(Spot.class).filter(Config.JSON_KEY_LOT, lotId)
+				.list();
 	}
 
 }
