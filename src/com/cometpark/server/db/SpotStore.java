@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import com.cometpark.server.db.models.Lot;
 import com.cometpark.server.db.models.Spot;
-import com.cometpark.server.util.Utils;
+import com.cometpark.server.util.Config;
 
 public class SpotStore {
 	private static final Logger LOG = Logger.getLogger(SpotStore.class
@@ -29,7 +29,7 @@ public class SpotStore {
 			newSpot.setType(type);
 			newSpot.setLat(lat);
 			newSpot.setLng(lng);
-			newSpot.setStatus(Utils.STATUS_AVAILABLE);
+			newSpot.setStatus(Config.STATUS_AVAILABLE);
 			ofy().save().entity(newSpot);
 		} else {
 			LOG.warning(spotId + " is already added");
@@ -39,7 +39,7 @@ public class SpotStore {
 				oldSpot.setType(type);
 				oldSpot.setLat(lat);
 				oldSpot.setLng(lng);
-				oldSpot.setStatus(Utils.STATUS_AVAILABLE);
+				oldSpot.setStatus(Config.STATUS_AVAILABLE);
 				ofy().save().entity(oldSpot);
 			}
 		}

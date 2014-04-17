@@ -15,7 +15,7 @@
  */
 package com.cometpark.server.gcm;
 
-import com.cometpark.server.util.Utils;
+import com.cometpark.server.util.Config;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -54,7 +54,7 @@ public class ApiKeyInitializer implements ServletContextListener {
       // it will be necessary to hardcode the API key below if you are running
       // it locally.
       entity.setProperty(ACCESS_KEY_FIELD,
-          Utils.API_KEY);
+          Config.API_KEY);
       datastore.put(entity);
       logger.severe("Created fake key. Please go to App Engine admin "
           + "console, change its value to your API Key (the entity "

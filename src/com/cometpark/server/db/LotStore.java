@@ -5,7 +5,7 @@ import static com.cometpark.server.db.OfyService.ofy;
 import java.util.logging.Logger;
 
 import com.cometpark.server.db.models.Lot;
-import com.cometpark.server.util.Utils;
+import com.cometpark.server.util.Config;
 
 public class LotStore {
 	private static final Logger LOG = Logger
@@ -28,7 +28,7 @@ public class LotStore {
 			newLot.setLocationTopRight(locationTopRight);
 			newLot.setLocationBottomLeft(locationBottomLeft);
 			newLot.setLocationBottomRight(locationBottomRight);
-			newLot.setStatus(Utils.STATUS_AVAILABLE);
+			newLot.setStatus(Config.STATUS_AVAILABLE);
 			ofy().save().entity(newLot);
 		} else {
 			if (oldLot.getName().equals(name)) {
@@ -40,7 +40,7 @@ public class LotStore {
 				oldLot.setLocationTopRight(locationTopRight);
 				oldLot.setLocationBottomLeft(locationBottomLeft);
 				oldLot.setLocationBottomRight(locationBottomRight);
-				oldLot.setStatus(Utils.STATUS_AVAILABLE);
+				oldLot.setStatus(Config.STATUS_AVAILABLE);
 				ofy().save().entity(oldLot);
 			}
 		}

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cometpark.server.db.Datastore;
 import com.cometpark.server.gcm.SendMessageServlet;
 import com.cometpark.server.util.JsonHandler;
-import com.cometpark.server.util.Utils;
+import com.cometpark.server.util.Config;
 import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
 import com.google.appengine.api.channel.ChannelServiceFactory;
@@ -83,25 +83,25 @@ public class StatusUpdateServlet extends HttpServlet {
 			Object obj = parser.parse(jsonString);
 			JsonObject jsonObject = (JsonObject) obj;
 
-			int type = jsonObject.get(Utils.JSON_TYPE).getAsInt();
+			int type = jsonObject.get(Config.JSON_TYPE).getAsInt();
 			switch (type) {
-			case Utils.TYPE_SPOTS_STATUS_UPDATE: {
+			case Config.TYPE_SPOTS_STATUS_UPDATE: {
 				JsonObject spotsJsonObject = jsonObject
-						.getAsJsonObject(Utils.JSON_KEY_SPOTS);
+						.getAsJsonObject(Config.JSON_KEY_SPOTS);
 				JsonHandler.updateSpots(spotsJsonObject);
 				updateClientView(spotsJsonObject.toString());
 				
 				break;
 			}
-			case Utils.TYPE_CREATE_SPOTS: {
+			case Config.TYPE_CREATE_SPOTS: {
 				JsonArray spotsJsonArray = jsonObject
-						.getAsJsonArray(Utils.JSON_KEY_SPOTS);
+						.getAsJsonArray(Config.JSON_KEY_SPOTS);
 				JsonHandler.createSpots(spotsJsonArray);
 				break;
 			}
-			case Utils.TYPE_CREATE_LOTS: {
+			case Config.TYPE_CREATE_LOTS: {
 				JsonArray lotsJsonArray = jsonObject
-						.getAsJsonArray(Utils.JSON_KEY_LOTS);
+						.getAsJsonArray(Config.JSON_KEY_LOTS);
 				JsonHandler.createLots(lotsJsonArray);
 				break;
 			}

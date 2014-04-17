@@ -1,35 +1,25 @@
 package com.cometpark.server.util;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.cometpark.server.api.StatusUpdateServlet;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
-
-public class Utils {
-	private static final Logger log = Logger.getLogger(Utils.class.getName());
+public class Config {
+	
+	/** GCM use*/
 	public static final String PROJECT_ID = "cometparking";
 	public static final String API_KEY = "AIzaSyD2r7coXpNsyYVsXFQ-llsO3_K-E4wwRwg";
 	public static final String SENDER_ID = "876843474676";
 	public static final String SPOT_KIND = "Spot";
 	public static final String SPOT_ID = "Spot_id";
 	public static final String SPOT_AVAILABILITY = "availability";
-
 	public static final String TOKEN_ID = "token_id";
 
+	/** Permit type section*/
 	public static final int PERMIT_TYPE_GREEN = 1;
 	public static final int PERMIT_TYPE_GOLD = 2;
 	public static final int PERMIT_TYPE_PURPLE = 3;
 	public static final int PERMIT_TYPE_ORANGE = 4;
 
+	
+	/** Status*/
 	public static final int STATUS_AVAILABLE = 0;
 	public static final int STATUS_OCCUPIED = 1;
 
@@ -98,6 +88,31 @@ public class Utils {
 	public static final int TYPE_LOTS_INFO_UPDATE = 12; 
 	
 	public static final int _TYPE = 99;
+	
+	
+	/** The key used to broadcast message to client*/
+	/**
+	 *  Notify user a spot status info updates
+	 */
+	public static final int BROADCAST_SPOTS_INFO = 900;
+	
+	/**
+	 * Lots status info updates
+	 */
+	public static final int BROADCAST_LOTS_INFO = 901;
+	
+	/**
+	 * Notify client the spots info is out of date.
+	 */
+	public static final int BROADCAST_SPOTS_UPDATE = 902;
+	
+	/**
+	 * Notify client the lots info is out of date.
+	 */
+	public static final int BROADCAST_LOTS_UPDATE = 903;
+	
+	
+	/** Json section*/
 
 	public static final String JSON_TYPE = "type";
 	public static final String JSON_CONTROLLER_ID = "controllerId";
