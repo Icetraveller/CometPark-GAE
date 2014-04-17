@@ -13,13 +13,14 @@ public class SpotStore {
 	private static final Logger LOG = Logger.getLogger(SpotStore.class
 			.getName());
 
-	public static void addSpot(String spotId, String lotId, int type,
+	public static Spot addSpot(String spotId, String lotId, int type,
 			double lat, double lng) {
 		LOG.info("Add spot( " + spotId + " ) in Lot(" + lotId + " )");
 		Spot oldSpot = findSpotBySpotId(spotId);
 		Lot oldLot = LotStore.findLotByLotId(lotId);
 		if (oldLot == null) {
-			return;
+			LOG.warning("lot does not exist");
+			return null;
 		}
 		if (oldSpot == null) {
 			// existing spot not found
@@ -30,7 +31,8 @@ public class SpotStore {
 			newSpot.setLat(lat);
 			newSpot.setLng(lng);
 			newSpot.setStatus(Config.STATUS_AVAILABLE);
-			ofy().save().entity(newSpot);
+			return newSpot;
+//			ofy().save().entity(newSpot);
 		} else {
 			LOG.warning(spotId + " is already added");
 			if (lotId.equals(oldSpot.getLot())) {
@@ -40,9 +42,15 @@ public class SpotStore {
 				oldSpot.setLat(lat);
 				oldSpot.setLng(lng);
 				oldSpot.setStatus(Config.STATUS_AVAILABLE);
-				ofy().save().entity(oldSpot);
+				return oldSpot;
+//				ofy().save().entity(oldSpot);
 			}
 		}
+		return null;
+	}
+	
+	public static void createSpots(List<Spot> spotsList){
+		ofy().save().entities(spotsList);
 	}
 
 	public static void deleteSpot(String spotId) {

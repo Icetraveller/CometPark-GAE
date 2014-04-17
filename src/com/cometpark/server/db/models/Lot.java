@@ -79,5 +79,4 @@ public class Lot {
 		locationBottomRight.lat = d[0];
 		locationBottomRight.lng = d[1];
 	}
-
 }

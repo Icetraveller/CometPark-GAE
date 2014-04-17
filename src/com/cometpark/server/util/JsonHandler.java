@@ -46,6 +46,7 @@ public class JsonHandler {
 	}
 
 	public static void createSpots(JsonArray spotsJsonArray) {
+		List<Spot> spotList = new ArrayList<Spot>();
 		Iterator<JsonElement> iterator = spotsJsonArray.iterator();
 		while (iterator.hasNext()) {
 			JsonObject spotsJsonObject = iterator.next().getAsJsonObject();
@@ -57,11 +58,18 @@ public class JsonHandler {
 			double lat = spotsJsonObject.get(Config.JSON_KEY_LAT).getAsDouble();
 			double lng = spotsJsonObject.get(Config.JSON_KEY_LNG).getAsDouble();
 			int status = spotsJsonObject.get(Config.JSON_KEY_STATUS).getAsInt();
-			SpotStore.addSpot(spotId, lotId, type, lat, lng);
+			Spot spot = SpotStore.addSpot(spotId, lotId, type, lat, lng);
+			if(spot !=null){
+				spotList.add(spot);
+			}
 		}
+		
+		//apply batch
+		SpotStore.createSpots(spotList);
 	}
 
 	public static void createLots(JsonArray spotsJsonArray) {
+		List<Lot> lotList = new ArrayList<Lot>();
 		Iterator<JsonElement> iterator = spotsJsonArray.iterator();
 		while (iterator.hasNext()) {
 			JsonObject lotsJsonObject = iterator.next().getAsJsonObject();
@@ -81,9 +89,15 @@ public class JsonHandler {
 					Config.JSON_KEY_BOTTOM_LEFT).getAsJsonObject());
 			double[] locationBottomRight = parseLocation(locationJsonObject.get(
 					Config.JSON_KEY_BOTTOM_RIGHT).getAsJsonObject());
-			LotStore.addLot(lotId, name, filename, url, locationTopLeft,
+			Lot lot = LotStore.addLot(lotId, name, filename, url, locationTopLeft,
 					locationTopRight, locationBottomLeft, locationBottomRight);
+			
+			if(lot !=null){
+				lotList.add(lot);
+			}
 		}
+		
+		LotStore.createLots(lotList);
 	}
 
 	public static double[] parseLocation(JsonObject locationJsonObject) {
