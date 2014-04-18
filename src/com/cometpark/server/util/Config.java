@@ -1,5 +1,9 @@
 package com.cometpark.server.util;
 
+import java.util.List;
+
+import com.cometpark.server.db.models.LotStatus;
+
 
 public class Config {
 	
@@ -141,5 +145,8 @@ public class Config {
 	public static final String JSON_KEY_TOP_RIGHT = "topRight";
 	public static final String JSON_KEY_BOTTOM_LEFT = "bottomLeft";
 	public static final String JSON_KEY_BOTTOM_RIGHT = "bottomRight";
+	
+	public static final String JSON_KEY_LOTS_STATUS = "lot_status_info";
+	public static final String JSON_KEY_AVAILABLE_SPOTS_COUNT = "available_spots_count";
 
 }

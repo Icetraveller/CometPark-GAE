@@ -31,6 +31,8 @@ public class ProcessRequestServlet extends HttpServlet {
 			log.info(" jsonMessage: " + jsonMessage);
 			break;
 		case Config.TYPE_REQUEST_LOTS_STATUS:
+			jsonMessage = JsonHandler.fetchLotsStatusInfo();
+			log.info(" jsonMessage: " + jsonMessage);
 			break;
 		case Config.TYPE_REQUEST_LOTS_INFO:
 			break;

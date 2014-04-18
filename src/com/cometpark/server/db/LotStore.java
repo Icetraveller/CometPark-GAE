@@ -58,8 +58,8 @@ public class LotStore {
 		if(oldLs != null){
 			LotStatus newLs = new LotStatus();
 			newLs.setLotId(lotId);
-			newLs.setAvailable(0);
-			newLs.setMax(0);
+			int[] array = new int[Config.PERMIT_TYPE_SUM+1];
+			newLs.setAvailableSpotsCount(array);
 			ofy().save().entity(newLs);
 			return;
 		}
@@ -94,6 +94,10 @@ public class LotStore {
 	
 	public static Lot findLotByLotId(String id) {
 		return ofy().load().type(Lot.class).id(id).get();
+	}
+	
+	public static List<Lot> fetchLots(){
+		return ofy().load().type(Lot.class).list();
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.cometpark.server.db.models;
 
+import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -10,8 +11,8 @@ class Location {
 	double lng;
 }
 
-
 @Entity
+@Cache
 public class Lot {
 	@Id private String id;
 	private String name;
