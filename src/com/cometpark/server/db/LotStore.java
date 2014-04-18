@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.cometpark.server.db.models.Lot;
+import com.cometpark.server.db.models.LotStatus;
 import com.cometpark.server.db.models.Spot;
 import com.cometpark.server.util.Config;
 import com.googlecode.objectify.Key;
@@ -19,7 +20,6 @@ public class LotStore {
 			double[] locationBottomLeft, double[] locationBottomRight) {
 		LOG.info("id=" + id + " name=" + name + " filename=" + filename
 				+ " url=" + url);
-
 		Lot oldLot = findLotByLotId(id);
 		if (oldLot == null) {
 			Lot newLot = new Lot();
@@ -32,8 +32,10 @@ public class LotStore {
 			newLot.setLocationBottomLeft(locationBottomLeft);
 			newLot.setLocationBottomRight(locationBottomRight);
 			newLot.setStatus(Config.STATUS_AVAILABLE);
+			
+			//create a lot status for this entity
+			createLotStatus(id);
 			return newLot;
-//			ofy().save().entity(newLot);
 		} else {
 			if (oldLot.getName().equals(name)) {
 				oldLot.setId(id);
@@ -46,10 +48,22 @@ public class LotStore {
 				oldLot.setLocationBottomRight(locationBottomRight);
 				oldLot.setStatus(Config.STATUS_AVAILABLE);
 				return oldLot;
-//				ofy().save().entity(oldLot);
 			}
 		}
 		return null;
+	}
+	
+	private static void createLotStatus(String lotId){
+		LotStatus oldLs = LotStatusStore.findLotByLotId(lotId);
+		if(oldLs != null){
+			LotStatus newLs = new LotStatus();
+			newLs.setLotId(lotId);
+			newLs.setAvailable(0);
+			newLs.setMax(0);
+			ofy().save().entity(newLs);
+			return;
+		}
+		//ignore the one already exists, because it gonna refresh it's self
 	}
 	
 	public static void createLots(List<Lot> lotsList){
@@ -82,6 +96,4 @@ public class LotStore {
 		return ofy().load().type(Lot.class).id(id).get();
 	}
 	
-	public static void find(){
-	}
 }

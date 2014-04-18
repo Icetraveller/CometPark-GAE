@@ -30,7 +30,6 @@ public class JsonHandler {
 		Gson gson = new GsonBuilder().create();
 		map.put(Config.JSON_KEY_SPOTS, spotList);
 		map.put(Config.JSON_KEY_LOT, lotId);
-		map.put(Config.JSON_KEY_DATA_VERSION, dataVersion);
 		return gson.toJson(map);
 	}
 

@@ -17,6 +17,7 @@
 package com.cometpark.server.db;
 
 import com.cometpark.server.db.models.Lot;
+import com.cometpark.server.db.models.LotStatus;
 import com.cometpark.server.db.models.Spot;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -32,10 +33,9 @@ import com.googlecode.objectify.ObjectifyService;
  */
 public class OfyService {
     static {
-//        factory().register(Device.class);
-//        factory().register(MulticastMessage.class);
     	factory().register(Spot.class);
     	factory().register(Lot.class);
+    	factory().register(LotStatus.class);
     }
 
     public static Objectify ofy() {

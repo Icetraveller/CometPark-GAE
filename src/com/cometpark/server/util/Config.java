@@ -13,10 +13,13 @@ public class Config {
 	public static final String TOKEN_ID = "token_id";
 
 	/** Permit type section*/
+	public static final int PERMIT_TYPE_EXTENDED = 0;
 	public static final int PERMIT_TYPE_GREEN = 1;
 	public static final int PERMIT_TYPE_GOLD = 2;
-	public static final int PERMIT_TYPE_PURPLE = 3;
-	public static final int PERMIT_TYPE_ORANGE = 4;
+	public static final int PERMIT_TYPE_EVE_ORANGE = 3;
+	public static final int PERMIT_TYPE_PURPLE = 4;
+	public static final int PERMIT_TYPE_ORANGE = 5;
+	public static final int PERMIT_TYPE_SUM = 6;
 
 	
 	/** Status*/

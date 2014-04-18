@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cometpark.server.db.Datastore;
+import com.cometpark.server.db.LotStatusStore;
 import com.cometpark.server.gcm.SendMessageServlet;
 import com.cometpark.server.util.JsonHandler;
 import com.cometpark.server.util.Config;
@@ -46,7 +47,7 @@ public class StatusUpdateServlet extends HttpServlet {
 			throws IOException {
 		log.setLevel(Level.INFO);
 		log.info(" GET");
-
+		LotStatusStore.work();
 		// create channel
 		ChannelService channelService = ChannelServiceFactory
 				.getChannelService();
