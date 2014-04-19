@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
+import com.cometpark.server.api.StatusUpdateServlet;
 import com.cometpark.server.db.LotStatusStore;
 import com.cometpark.server.db.LotStore;
 import com.cometpark.server.db.SpotStore;
@@ -24,30 +26,45 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class JsonHandler {
-
+	private static final Logger log = Logger
+			.getLogger(JsonHandler.class.getName());
 	public static String fetchSpotsByLot(String lotId) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(Config.TYPE, Config.TYPE_SPOTS_STATUS_UPDATE);
 		List<Spot> spotList = SpotStore.findSpotsByLotId(lotId);
 		Gson gson = new GsonBuilder().create();
 		map.put(Config.JSON_KEY_SPOTS, spotList);
 		map.put(Config.JSON_KEY_LOT, lotId);
+		
 		return gson.toJson(map);
 	}
 
-	public static void fetchSpots() {
-		
+	public static String fetchSpots() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(Config.TYPE, Config.TYPE_SPOTS_INFO_UPDATE);
+		List<Spot> spotList = SpotStore.fetchAllSpots();
+		Gson gson = new GsonBuilder().create();
+		map.put(Config.JSON_KEY_SPOTS, spotList);
+		return gson.toJson(map);
 	}
 
-	public static void fetchLots() {
-
+	public static String fetchLots() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(Config.TYPE, Config.TYPE_LOTS_INFO_UPDATE);
+		List<Lot> lotList = LotStore.fetchLots();
+		Lot lot= lotList.get(0);
+		log.info(""+lot.toString());
+		Gson gson = new GsonBuilder().create();
+		map.put(Config.JSON_KEY_LOTS, lotList);
+		return gson.toJson(map);
 	}
 
 	public static String fetchLotsStatusInfo() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(Config.TYPE, Config.TYPE_REQUEST_LOTS_STATUS);
 		List<LotStatus> lotStatus = LotStatusStore.fetchLotStatusInfo();
 		Gson gson = new GsonBuilder().create();
 		map.put(Config.JSON_KEY_LOTS_STATUS, lotStatus);
-		map.put(Config.TYPE, Config.BROADCAST_LOTS_STATUS_UPDATE);
 		return gson.toJson(map);
 	}
 

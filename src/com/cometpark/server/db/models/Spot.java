@@ -6,7 +6,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@Cache
+@Cache(expirationSeconds= 1) //TODO in final release it will be 10
 public class Spot {
 	@Id private String id;
 	@Index private String lot;

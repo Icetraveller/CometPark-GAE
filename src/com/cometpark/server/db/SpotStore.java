@@ -84,7 +84,9 @@ public class SpotStore {
 	}
 
 	public static List<Spot> findSpotsByLotId(String lotId) {
-		return ofy().cache(false).load().type(Spot.class).filter(Config.JSON_KEY_LOT, lotId)
+//		return ofy().cache(false).load().type(Spot.class).filter(Config.JSON_KEY_LOT, lotId)
+//				.list();
+		return ofy().load().type(Spot.class).filter(Config.JSON_KEY_LOT, lotId)
 				.list();
 	}
 

@@ -123,4 +123,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>index-template.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<!-- Cron use -->
+	<servlet>
+		<servlet-name>cron</servlet-name>
+		<servlet-class>com.cometpark.server.servlet.CronServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cron</servlet-name>
+		<url-pattern>/recache</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

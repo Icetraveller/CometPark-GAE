@@ -9,20 +9,32 @@ import com.googlecode.objectify.annotation.OnSave;
 class Location {
 	double lat;
 	double lng;
+	
 }
 
 @Entity
-@Cache
 public class Lot {
 	@Id private String id;
 	private String name;
 	private String filename;
 	private String url;
 	private int status;
-	private Location locationTopLeft = new Location();
-	private Location locationTopRight = new Location();
-	private Location locationBottomLeft = new Location();
-	private Location locationBottomRight = new Location();
+	private Location topLeft;
+	private Location topRight ;
+	private Location bottomLeft ;
+	private Location bottomRight ;
+	
+	
+	public Lot(){
+		topLeft = new Location();
+		topRight = new Location();
+		bottomLeft = new Location();
+		bottomRight = new Location();
+	}
+	
+	public String toString(){
+		return topLeft.lat+","+topLeft.lng;
+	}
 
 	public String getId() {
 		return id;
@@ -65,19 +77,35 @@ public class Lot {
 	}
 	
 	public void setLocationTopLeft(double[] d){
-		locationTopLeft.lat = d[0];
-		locationTopLeft.lng = d[1];
+		topLeft.lat = d[0];
+		topLeft.lng = d[1];
 	}
 	public void setLocationTopRight(double[] d){
-		locationTopRight.lat = d[0];
-		locationTopRight.lng = d[1];
+		topRight.lat = d[0];
+		topRight.lng = d[1];
 	}
 	public void setLocationBottomLeft(double[] d){
-		locationBottomLeft.lat = d[0];
-		locationBottomLeft.lng = d[1];
+		bottomLeft.lat = d[0];
+		bottomLeft.lng = d[1];
 	}
 	public void setLocationBottomRight(double[] d){
-		locationBottomRight.lat = d[0];
-		locationBottomRight.lng = d[1];
+		bottomRight.lat = d[0];
+		bottomRight.lng = d[1];
+	}
+	
+	public Location getTopLeft() {
+		return topLeft;
+	}
+
+	public Location getTopRight() {
+		return topRight;
+	}
+
+	public Location getBottomLeft() {
+		return bottomLeft;
+	}
+
+	public Location getBottomRight() {
+		return bottomRight;
 	}
 }

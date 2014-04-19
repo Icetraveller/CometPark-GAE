@@ -70,7 +70,7 @@ public class LotStatusStore {
 		while (iterator.hasNext()) {
 			Key<Lot> key = iterator.next();
 			String lotId = key.getName();
-			Iterator<Spot> spotIterator = ofy().load().type(Spot.class)
+			Iterator<Spot> spotIterator = ofy().cache(false).load().type(Spot.class)
 					.filter(Config.JSON_KEY_LOT, lotId).iterator();
 			int max = 0;
 			int[] availableSpotsCount = new int[Config.PERMIT_TYPE_SUM + 1];
@@ -84,7 +84,6 @@ public class LotStatusStore {
 				}
 			}
 			availableSpotsCount[Config.PERMIT_TYPE_SUM] = max;
-			log.info("asd "+Arrays.toString(availableSpotsCount));
 			LotStatus lotStatus = new LotStatus();
 			lotStatus.setLotId(lotId);
 			lotStatus.setAvailableSpotsCount(availableSpotsCount);
@@ -94,7 +93,6 @@ public class LotStatusStore {
 	}
 
 	public static List<LotStatus> fetchLotStatusInfo() {
-		ofy().save().entities(work2());
 		return ofy().load().type(LotStatus.class).list();
 	}
 
