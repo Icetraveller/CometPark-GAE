@@ -83,7 +83,6 @@ public class StatusUpdateServlet extends HttpServlet {
 		try {
 			Object obj = parser.parse(jsonString);
 			JsonObject jsonObject = (JsonObject) obj;
-
 			int type = jsonObject.get(Config.JSON_TYPE).getAsInt();
 			switch (type) {
 			case Config.TYPE_SPOTS_STATUS_UPDATE: {
@@ -132,7 +131,7 @@ public class StatusUpdateServlet extends HttpServlet {
 				// send a single message using plain post
 				String device = devices.get(0);
 				queue.add(withUrl("/send").param(
-						SendMessageServlet.PARAMETER_DEVICE, device).param("message", jsonMessage));
+						SendMessageServlet.PARAMETER_DEVICE, device).param("message", jsonMessage).param(Config.TYPE, ""+Config.BROADCAST_SPOTS_STATUS_UPDATE));
 			}
 		}
 

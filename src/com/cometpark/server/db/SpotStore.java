@@ -32,7 +32,6 @@ public class SpotStore {
 			newSpot.setLng(lng);
 			newSpot.setStatus(Config.STATUS_AVAILABLE);
 			return newSpot;
-//			ofy().save().entity(newSpot);
 		} else {
 			LOG.warning(spotId + " is already added");
 			if (lotId.equals(oldSpot.getLot())) {
@@ -43,7 +42,6 @@ public class SpotStore {
 				oldSpot.setLng(lng);
 				oldSpot.setStatus(Config.STATUS_AVAILABLE);
 				return oldSpot;
-//				ofy().save().entity(oldSpot);
 			}
 		}
 		return null;
