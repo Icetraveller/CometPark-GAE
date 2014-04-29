@@ -113,7 +113,7 @@ public class SendMessageServlet extends BaseServlet {
 		}
 		String multicastKey = req.getParameter(PARAMETER_MULTICAST);
 		if (multicastKey != null) {
-			sendMulticastMessage(multicastKey, resp, message);
+			sendMulticastMessage(multicastKey, resp, message, type);
 			return;
 		}
 		logger.severe("Invalid request!");
@@ -165,10 +165,10 @@ public class SendMessageServlet extends BaseServlet {
 	}
 
 	private void sendMulticastMessage(String multicastKey,
-			HttpServletResponse resp, String msg) {
+			HttpServletResponse resp, String msg, String type) {
 		// Recover registration ids from datastore
 		List<String> regIds = Datastore.getMulticast(multicastKey);
-		Message message = createMessage(msg, "900");
+		Message message = createMessage(msg, type);
 		MulticastResult multicastResult;
 		try {
 			multicastResult = sender.sendNoRetry(message, regIds);
