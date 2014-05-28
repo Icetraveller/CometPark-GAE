@@ -19,3 +19,5 @@ Screeshots
 
 
 [1]: https://github.com/Icetraveller/CometPark-Android
+[2]: https://raw.githubusercontent.com/Icetraveller/CometPark-Android/master/art/Screenshot_2014-05-07-10-10-41.png
+[3]: https://raw.githubusercontent.com/Icetraveller/CometPark-Android/master/art/Screenshot_2014-05-07-10-11-41.png
