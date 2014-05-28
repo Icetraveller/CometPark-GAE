@@ -1,6 +1,7 @@
 CometPark-GAE
 =============
 Welcome to the CometPark-Android! This git repository is the GAE side of the whole project. And this [link][1] goes to Android app project.
+
 The **CometPark** project goal is to provide a solution to the UT Dallas campus parking problem, which includes the customization of hardware devices and sensors installed on each parking lot, implementation of cloud service and Android mobile application.
 
 The application provides a smart ranking list that is based on available parking spots, user preferred permit type and distance to there, to advise the best parking lot as destination.
